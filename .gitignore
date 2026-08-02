@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Angular build & cache
+dist/
+.angular/
+tmp/
+out-tsc/
+
+# Misc
+.DS_Store
+*.log

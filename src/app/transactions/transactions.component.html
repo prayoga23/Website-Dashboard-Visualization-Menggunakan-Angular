@@ -1,0 +1,125 @@
+<div class="content-header d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3 animate-fade-in">
+  <div>
+    <h4 class="fw-bold mb-1">Riwayat Transaksi Penjualan</h4>
+    <p class="text-muted fs-7 mb-0">Kelola dan pantau seluruh data transaksi pelanggan secara detail.</p>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" (click)="fetchTransactions()">
+      <i class="bi bi-arrow-clockwise me-1"></i> Refresh Data
+    </button>
+  </div>
+</div>
+
+<div class="custom-card mb-4 animate-fade-in">
+  <!-- Filter & Search Controls -->
+  <div class="row g-3 align-items-center mb-3">
+    <div class="col-12 col-md-4">
+      <div class="input-group">
+        <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+        <input 
+          type="text" 
+          class="form-control bg-light border-start-0 shadow-none" 
+          placeholder="Cari customer, produk..." 
+          [(ngModel)]="searchTerm" 
+          (ngModelChange)="applyFilters()">
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <select class="form-select bg-light shadow-none" [(ngModel)]="selectedCategory" (ngModelChange)="applyFilters()">
+        <option value="">Semua Kategori</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <input 
+        type="date" 
+        class="form-control bg-light shadow-none" 
+        [(ngModel)]="selectedDate" 
+        (ngModelChange)="applyFilters()">
+    </div>
+
+    <div class="col-12 col-md-2 text-end">
+      <button class="btn btn-light w-100 border text-muted" (click)="resetFilters()" title="Reset Filter">
+        <i class="bi bi-x-circle me-1"></i> Reset
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <app-loading-spinner *ngIf="isLoading" message="Memuat daftar transaksi penjualan..."></app-loading-spinner>
+
+  <!-- Table View -->
+  <div *ngIf="!isLoading">
+    <app-empty-state *ngIf="filteredTransactions.length === 0" title="Transaksi Tidak Ditemukan" description="Coba ubah kata kunci pencarian atau filter tanggal yang digunakan."></app-empty-state>
+
+    <div class="table-responsive" *ngIf="filteredTransactions.length > 0">
+      <table class="table custom-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th (click)="onSort('customer')" class="cursor-pointer">
+              Customer <i class="bi" [ngClass]="sortColumn === 'customer' ? (sortDirection === 'asc' ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up-alt') : 'bi-arrow-down-up opacity-25'"></i>
+            </th>
+            <th (click)="onSort('product')" class="cursor-pointer">
+              Product <i class="bi" [ngClass]="sortColumn === 'product' ? (sortDirection === 'asc' ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up-alt') : 'bi-arrow-down-up opacity-25'"></i>
+            </th>
+            <th (click)="onSort('category')" class="cursor-pointer">
+              Category <i class="bi" [ngClass]="sortColumn === 'category' ? (sortDirection === 'asc' ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up-alt') : 'bi-arrow-down-up opacity-25'"></i>
+            </th>
+            <th (click)="onSort('quantity')" class="cursor-pointer text-center">
+              Qty <i class="bi" [ngClass]="sortColumn === 'quantity' ? (sortDirection === 'asc' ? 'bi-sort-numeric-down' : 'bi-sort-numeric-up-alt') : 'bi-arrow-down-up opacity-25'"></i>
+            </th>
+            <th (click)="onSort('totalPrice')" class="cursor-pointer text-end">
+              Total Price <i class="bi" [ngClass]="sortColumn === 'totalPrice' ? (sortDirection === 'asc' ? 'bi-sort-numeric-down' : 'bi-sort-numeric-up-alt') : 'bi-arrow-down-up opacity-25'"></i>
+            </th>
+            <th (click)="onSort('date')" class="cursor-pointer text-end">
+              Date <i class="bi" [ngClass]="sortColumn === 'date' ? (sortDirection === 'asc' ? 'bi-sort-down' : 'bi-sort-up-alt') : 'bi-arrow-down-up opacity-25'"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of paginatedData">
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="customer-avatar bg-soft-primary text-primary fw-bold">
+                  {{ item.customer.charAt(0) }}
+                </div>
+                <div>
+                  <div class="fw-bold text-dark">{{ item.customer }}</div>
+                  <small class="text-muted fs-8">{{ item.id }}</small>
+                </div>
+              </div>
+            </td>
+            <td class="fw-semibold text-dark">{{ item.product }}</td>
+            <td>
+              <span class="badge badge-soft-primary">{{ item.category }}</span>
+            </td>
+            <td class="text-center fw-bold">{{ item.quantity }}</td>
+            <td class="text-end fw-bold text-primary">{{ formatCurrency(item.totalPrice) }}</td>
+            <td class="text-end text-muted fs-7">{{ item.date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between pt-3 mt-3 border-top" *ngIf="filteredTransactions.length > 0">
+      <small class="text-muted mb-2 mb-sm-0 fs-7">
+        Menampilkan <b>{{ (currentPage - 1) * pageSize + 1 }}</b> - <b>{{ Math.min(currentPage * pageSize, filteredTransactions.length) }}</b> dari <b>{{ filteredTransactions.length }}</b> transaksi
+      </small>
+
+      <ul class="pagination pagination-sm mb-0">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="goToPage(currentPage - 1)">Previous</button>
+        </li>
+        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+          <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="goToPage(currentPage + 1)">Next</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

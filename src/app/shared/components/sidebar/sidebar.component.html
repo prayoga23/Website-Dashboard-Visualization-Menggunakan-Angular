@@ -1,0 +1,38 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed" [class.mobile-open]="isMobileOpen">
+  <div class="sidebar-header d-flex align-items-center justify-content-between px-4 py-3">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand-logo">
+        <i class="bi bi-graph-up-arrow text-white fs-5"></i>
+      </div>
+      <div class="brand-text" *ngIf="!isCollapsed || isMobileOpen">
+        <h5 class="mb-0 fw-bold text-white fs-6">Analytics <span class="badge bg-primary fs-7">Pro</span></h5>
+      </div>
+    </div>
+    <button class="btn btn-icon text-white-50 d-lg-none p-1 border-0" (click)="closeMobile.emit()" title="Tutup Menu">
+      <i class="bi bi-x-lg fs-5"></i>
+    </button>
+  </div>
+
+  <div class="sidebar-menu px-3 py-2 flex-grow-1">
+    <small class="menu-heading px-3 mb-2 text-uppercase text-muted fw-bold" *ngIf="!isCollapsed || isMobileOpen">Menu Utama</small>
+    <ul class="nav nav-pills flex-column mb-auto gap-1">
+      <li class="nav-item" *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" (click)="closeMobile.emit()" routerLinkActive="active" class="nav-link d-flex align-items-center gap-3" [attr.title]="isCollapsed && !isMobileOpen ? item.title : null">
+          <i class="bi fs-5" [ngClass]="item.icon"></i>
+          <span class="link-text" *ngIf="!isCollapsed || isMobileOpen">{{ item.title }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar-footer p-3 mt-auto border-top border-secondary border-opacity-25" *ngIf="!isCollapsed || isMobileOpen">
+    <div class="card bg-dark text-white border-0 p-3 rounded-3 shadow-sm">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-shield-check text-success fs-6"></i>
+        <small class="fw-bold">Angular 18 Enterprise</small>
+      </div>
+      <small class="text-muted" style="font-size: 0.75rem;">Connected to Laravel REST API & MongoDB</small>
+    </div>
+  </div>
+</aside>
+

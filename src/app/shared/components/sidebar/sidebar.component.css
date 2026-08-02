@@ -1,0 +1,111 @@
+.sidebar {
+  width: 260px;
+  background-color: var(--sidebar-bg);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.06);
+  z-index: 1040;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+/* Desktop Collapsed state */
+@media (min-width: 992px) {
+  .sidebar.collapsed {
+    width: 80px;
+  }
+  
+  .sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding: 0.75rem 0;
+  }
+  
+  .sidebar.collapsed .brand-logo {
+    margin: 0 auto;
+  }
+  
+  .sidebar.collapsed .sidebar-header {
+    justify-content: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.menu-heading {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: #94a3b8 !important;
+  white-space: nowrap;
+}
+
+.nav-link {
+  color: #94a3b8;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background-color: var(--sidebar-hover);
+}
+
+.nav-link.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+.fs-7 {
+  font-size: 0.7rem;
+  padding: 0.2em 0.5em;
+}
+
+/* Responsive Offcanvas / Drawer style for Mobile & Tablet */
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 270px;
+    height: 100%;
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.25);
+  }
+}
+

@@ -1,0 +1,43 @@
+<header class="navbar navbar-expand bg-white border-bottom border-light px-4 py-2 sticky-top shadow-sm">
+  <div class="container-fluid p-0">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-icon btn-light border-0" (click)="onToggle()" title="Toggle Sidebar">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+      
+      <div class="search-input-wrapper d-none d-md-flex align-items-center bg-light px-3 py-1 rounded-pill">
+        <i class="bi bi-search text-muted me-2"></i>
+        <input type="text" class="form-control border-0 bg-transparent shadow-none" placeholder="Cari transaksi, produk, customer..." style="width: 260px;">
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-icon btn-light rounded-circle position-relative border-0">
+        <i class="bi bi-bell fs-5"></i>
+        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+          <span class="visually-hidden">Notifikasi</span>
+        </span>
+      </button>
+
+      <div class="vr my-2 text-muted"></div>
+
+      <div class="dropdown" *ngIf="currentUser$ | async as user">
+        <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="avatar-circle bg-primary text-white fw-bold">
+            {{ user.name.charAt(0) }}
+          </div>
+          <div class="text-start d-none d-sm-block">
+            <div class="fw-bold fs-7 lh-1 text-dark">{{ user.name }}</div>
+            <small class="text-muted fs-8">{{ user.email }}</small>
+          </div>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2 p-2">
+          <li><a class="dropdown-menu-item dropdown-item rounded-2 py-2" href="#"><i class="bi bi-person me-2"></i> Profile Saya</a></li>
+          <li><a class="dropdown-menu-item dropdown-item rounded-2 py-2" href="#"><i class="bi bi-gear me-2"></i> Pengaturan</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button (click)="logout()" class="dropdown-menu-item dropdown-item rounded-2 py-2 text-danger"><i class="bi bi-box-arrow-right me-2"></i> Keluar / Logout</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>

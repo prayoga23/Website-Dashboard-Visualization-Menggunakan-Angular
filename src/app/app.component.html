@@ -1,0 +1,27 @@
+<div *ngIf="isLoginPage">
+  <router-outlet></router-outlet>
+</div>
+
+<div class="dashboard-wrapper" *ngIf="!isLoginPage">
+  <!-- Mobile Overlay Backdrop -->
+  <div 
+    class="sidebar-backdrop" 
+    [class.show]="isMobileOpen" 
+    (click)="closeMobileSidebar()">
+  </div>
+
+  <app-sidebar 
+    [isCollapsed]="isSidebarCollapsed" 
+    [isMobileOpen]="isMobileOpen"
+    (closeMobile)="closeMobileSidebar()">
+  </app-sidebar>
+  
+  <div class="main-layout">
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+    
+    <main class="content-container">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+

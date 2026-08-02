@@ -1,0 +1,22 @@
+.fs-7 {
+  font-size: 0.85rem;
+}
+
+.fs-8 {
+  font-size: 0.75rem;
+}
+
+.badge-soft-success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge-soft-primary {
+  background-color: #eef2ff;
+  color: #4f46e5;
+}
+
+.badge-soft-warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}

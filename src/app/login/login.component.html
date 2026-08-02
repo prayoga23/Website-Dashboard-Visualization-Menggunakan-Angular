@@ -1,0 +1,60 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100 p-3">
+  <div class="login-card custom-card p-4 p-sm-5 animate-fade-in shadow-lg" style="max-width: 440px; width: 100%;">
+    <div class="text-center mb-4">
+      <div class="brand-logo-circle bg-primary text-white mx-auto mb-3 shadow">
+        <i class="bi bi-graph-up-arrow fs-3"></i>
+      </div>
+      <h4 class="fw-bold text-dark mb-1">Analytics Dashboard</h4>
+      <p class="text-muted fs-7">Masuk dengan kredensial akun Anda untuk mengakses REST API Laravel & Visualization.</p>
+    </div>
+
+    <!-- Error Alert Message -->
+    <div class="alert alert-danger d-flex align-items-center gap-2 py-2 px-3 fs-7 mb-3" *ngIf="errorMessage">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label fw-bold fs-7">Alamat Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+          <input 
+            type="email" 
+            class="form-control bg-light border-start-0 shadow-none" 
+            placeholder="admin@analytics.com" 
+            [(ngModel)]="email" 
+            name="email" 
+            required>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <label class="form-label fw-bold fs-7 mb-0">Password</label>
+          <a href="#" class="fs-8 text-primary text-decoration-none">Lupa Password?</a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+          <input 
+            type="password" 
+            class="form-control bg-light border-start-0 shadow-none" 
+            placeholder="••••••••" 
+            [(ngModel)]="password" 
+            name="password" 
+            required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-3 shadow-sm" [disabled]="isLoading">
+        <span *ngIf="!isLoading"><i class="bi bi-box-arrow-in-right me-2"></i> Masuk Ke Dashboard</span>
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        <span *ngIf="isLoading">Memproses Login...</span>
+      </button>
+    </form>
+
+    <div class="text-center mt-4 pt-3 border-top">
+      <small class="text-muted fs-8">Technical Test Project &bull; Angular 18 Enterprise Standalone</small>
+    </div>
+  </div>
+</div>

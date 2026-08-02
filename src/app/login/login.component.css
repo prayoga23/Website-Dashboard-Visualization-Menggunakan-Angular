@@ -1,0 +1,27 @@
+.login-wrapper {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.brand-logo-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.login-card {
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.fs-7 {
+  font-size: 0.88rem;
+}
+
+.fs-8 {
+  font-size: 0.78rem;
+}
